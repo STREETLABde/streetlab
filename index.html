@@ -156,10 +156,52 @@ h2 { font-size:17px; margin:0; }
 </div>
 </div>
 <script>
-const items=[];
-let saved=JSON.parse(localStorage.getItem('sl-saved')||'[]');
-let cart=JSON.parse(localStorage.getItem('sl-cart')||'[]');
-let filter='Alle';
+const items = [
+  {
+    id: 1,
+    brand: "NIKE",
+    name: "Nike Sportswear T-Shirt",
+    category: "T-Shirts",
+    price: "Preis im Shop",
+    condition: "Neu",
+    source: "Nike",
+    image: "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto%2Cq_auto%3Aeco%2Cc_scale%2Cw_300%2Cu_9ddf04c7-2a9a-4d76-add1-d15af8f0263d%2Cc_scale%2Cfl_relative%2Cw_1.0%2Ch_1.0%2Cfl_layer_apply/adb3d14b-343b-49a5-b808-586c50672300/M%2BNSW%2BTEE%2BICON%2BFUTURA.png",
+    url: "https://www.nike.com/de/w/streetwear-clothing-97qn8"
+  },
+  {
+    id: 2,
+    brand: "adidas",
+    name: "Firebird Trainingshose",
+    category: "Hosen",
+    price: "65,00 €",
+    condition: "Neu",
+    source: "adidas",
+    image: "https://assets.adidas.com/images/w_500%2Cf_auto%2Cq_auto/5b141cd49819482eac05afba5d35594e_9366/Adicolor_Classic_Firebird_Loose_Trainingshose_Weinrot_KA7743_21_model.jpg",
+    url: "https://www.adidas.de/en/firebird-track-pants/KD3831.html"
+  },
+  {
+    id: 3,
+    brand: "VANS",
+    name: "Left Chest Logo T-Shirt",
+    category: "T-Shirts",
+    price: "30,00 €",
+    condition: "Neu",
+    source: "Vans",
+    image: "https://assets.vans.eu/images/t_img/c_fill%2Cg_center%2Cf_auto%2Ch_550%2Ce_unsharp_mask%3A100%2Cw_440/dpr_2.0/v1779356530/VN0010FFBLK-HERO/Left-Chest-II-Logo-TShirt-VANS-Black-HERO.jpg",
+    url: "https://www.vans.com/de-de/"
+  },
+  {
+    id: 4,
+    brand: "SUPREME",
+    name: "Supreme Hoodie",
+    category: "Pullover",
+    price: "Preis im Shop",
+    condition: "Neu",
+    source: "Supreme",
+    image: "https://cdn.sanity.io/images/ldn4d4qt/ss26-production-2026-02-22/4534064dc6c50f9d73c1697d359b31b528cf8168-2281x1800.jpg?auto=format&q=90&w=1200",
+    url: "https://eu.supreme.com/"
+  }
+];
 
 function persist(){
   localStorage.setItem('sl-saved',JSON.stringify(saved));
@@ -167,20 +209,44 @@ function persist(){
 }
 
 function productCard(p){
-  return `<article class="product">
-    <div class="product-art">
-      ${p.image?`<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">`:p.art||'◇'}
-      <button class="heart" onclick="toggleSaved(${p.id})">${saved.includes(p.id)?'♥':'♡'}</button>
-    </div>
-    <div class="product-info">
-      <div class="brand">${p.brand}</div>
-      <div class="product-name">${p.name}</div>
-      <div class="product-meta"><span class="price">${p.price}</span><span class="condition">${p.condition||''}</span></div>
-      <div class="muted" style="margin-top:7px">${p.source||'Shop'}${p.seller?' · '+p.seller:''}</div>
-      ${p.url?`<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="chip" style="display:block;text-align:center;text-decoration:none;margin-top:9px">Angebot ansehen ↗</a>`:''}
-      <button class="chip" style="margin-top:7px;width:100%" onclick="addCart(${p.id})">+ In den Warenkorb</button>
-    </div>
-  </article>`;
+function productCard(p) {
+  return `
+    <article class="product">
+      <div class="product-art">
+        <img
+          src="${p.image}"
+          alt="${p.brand} ${p.name}"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none'"
+        >
+        <button class="heart" onclick="toggleSaved(${p.id})">
+          ${saved.includes(p.id) ? "♥" : "♡"}
+        </button>
+      </div>
+
+      <div class="product-info">
+        <div class="brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-meta">
+          <span class="price">${p.price}</span>
+          <span class="condition">${p.condition}</span>
+        </div>
+        <div class="muted">${p.source}</div>
+
+        <a href="${p.url}" target="_blank"
+           rel="noopener noreferrer"
+           class="chip"
+           style="display:block;text-align:center;text-decoration:none;margin-top:9px">
+          Zum Produkt ↗
+        </a>
+
+        <button class="chip" style="width:100%;margin-top:7px"
+          onclick="addCart(${p.id})">
+          + In den Warenkorb
+        </button>
+      </div>
+    </article>
+  `;
 }
 
 function renderProducts(){
