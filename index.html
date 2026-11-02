@@ -1,239 +1,253 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5f5f3">
 <title>STREETLAB</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f5f5f3;color:#202020;font-family:Arial,sans-serif}
-header{padding:22px 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:25px;font-weight:900;letter-spacing:-1.5px}
-.logo span{color:#858585}
-main{max-width:760px;margin:auto;padding:0 16px 100px}
-button{cursor:pointer;font-family:inherit}
-.icon-btn{border:1px solid #ddd;background:white;border-radius:50%;width:40px;height:40px;font-size:18px}
-.search{display:flex;gap:8px;background:white;border:1px solid #e3e3df;border-radius:14px;padding:10px 12px;margin:8px 0 22px}
-.search input{flex:1;min-width:0;border:0;outline:0;font-size:14px}
-.hero{background:#252525;color:white;border-radius:19px;padding:24px 20px;margin-bottom:23px}
-.hero small{letter-spacing:2px;font-size:10px;opacity:.7}
-.hero h1{font-size:34px;line-height:1.05;letter-spacing:-1.5px;margin:12px 0}
-.hero p{font-size:12px;opacity:.75}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 12px}
-h2{font-size:17px;margin:0}
-.muted{color:#858585;font-size:10px}
-.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.cat{min-height:66px;border:1px solid #e2e2de;background:white;border-radius:13px;padding:10px 4px;font-size:11px;color:#222}
-.cat b{display:block;font-size:19px;margin-bottom:5px}
-.cat.active{border:2px solid #252525}
-.filters{display:flex;gap:7px;overflow-x:auto;padding:3px 0 10px}
-.chip{white-space:nowrap;border:1px solid #ddd;background:transparent;border-radius:25px;padding:8px 13px;font-size:11px}
-.chip.active{background:#252525;color:white;border-color:#252525}
-.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.empty{background:white;border:1px dashed #d6d6d2;border-radius:15px;padding:25px 16px;text-align:center;color:#858585;font-size:13px;line-height:1.6;grid-column:1/-1}
-.notice{font-size:11px;color:#858585;line-height:1.5;margin:18px 3px}
-.source-list{display:grid;gap:9px;margin:12px 0}
-.source-row{display:flex;justify-content:space-between;gap:12px;padding:14px;background:white;border:1px solid #e2e2de;border-radius:12px;font-size:12px}
-.source-state{color:#858585;font-size:10px;text-align:right}
-.panel{display:none}.panel.active{display:block}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#fffffff0;border-top:1px solid #e5e5e1;display:flex;justify-content:center}
-.nav{width:min(100%,760px);display:grid;grid-template-columns:repeat(4,1fr);padding:9px 8px 12px}
-.nav button{background:transparent;border:0;color:#777;font-size:10px}
-.nav strong{display:block;font-size:19px;margin-bottom:3px}
-.nav button.selected{color:#181818;font-weight:bold}
-@media(min-width:600px){.categories{grid-template-columns:repeat(5,1fr)}.products{grid-template-columns:repeat(3,minmax(0,1fr))}}
+:root {
+  --site-primary: #252525;
+  --site-on-primary: #ffffff;
+  --site-background: #f5f5f3;
+  --site-on-background: #202020;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: Inter, system-ui, sans-serif; }
+#app { min-height: 100vh; padding-bottom: 86px; }
+header { padding: 22px 20px 14px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 25px; font-weight: 900; letter-spacing: -1.7px; }
+.logo span { color: #858585; }
+.top-actions { display: flex; gap: 9px; }
+.icon-btn { border: 1px solid #dededb; background: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 17px; }
+main { max-width: 760px; margin: auto; padding: 0 16px; }
+.search { display:flex; gap:8px; background:#fff; border:1px solid #e3e3df; border-radius:15px; padding:7px 12px; margin:8px 0 22px; }
+.search input { flex:1; min-width:0; border:0; outline:0; background:transparent; font-size:14px; padding:8px 2px; }
+.section-head { display:flex; justify-content:space-between; align-items:end; margin:20px 2px 12px; }
+h2 { font-size:17px; margin:0; }
+.muted { color:#858585; font-size:12px; }
+.hero { background:var(--site-primary); color:white; border-radius:19px; padding:23px 20px; margin-bottom:23px; }
+.hero small { text-transform:uppercase; letter-spacing:2px; font-size:10px; opacity:.65; }
+.hero h1 { font-size:clamp(25px,7vw,36px); line-height:1.03; margin:10px 0 8px; }
+.hero p { font-size:12px; opacity:.75; margin:0; }
+.categories { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.cat { min-height:65px; border:1px solid #e2e2de; background:#fff; border-radius:13px; padding:11px 5px; text-align:center; font-size:11px; }
+.cat b { display:block; font-size:19px; margin-bottom:5px; }
+.filters { display:flex; gap:7px; overflow:auto; padding:2px 0 9px; }
+.chip { white-space:nowrap; border:1px solid #dededb; background:transparent; border-radius:30px; padding:8px 13px; font-size:11px; }
+.chip.active { background:#252525; color:white; }
+.products { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.product { background:#fff; border:1px solid #e8e8e4; border-radius:15px; overflow:hidden; }
+.product-art { height:145px; display:grid; place-items:center; background:#e9e9e6; font-size:58px; position:relative; }
+.heart { position:absolute; right:9px; top:9px; width:31px; height:31px; border-radius:50%; border:0; background:#ffffffdd; font-size:16px; }
+.product-info { padding:11px; }
+.brand { font-size:9px; letter-spacing:1.2px; color:#858585; text-transform:uppercase; }
+.product-name { font-size:13px; font-weight:650; margin:4px 0; }
+.product-meta { display:flex; justify-content:space-between; align-items:center; font-size:11px; }
+.price { font-weight:750; }
+.condition { color:#858585; }
+.bottom { position:fixed; bottom:0; left:0; right:0; background:#ffffffed; border-top:1px solid #e5e5e1; display:flex; justify-content:center; z-index:5; }
+.nav { width:min(100%,760px); display:grid; grid-template-columns:repeat(4,1fr); padding:9px 8px 12px; }
+.nav button { background:transparent; border:0; color:#777; font-size:10px; padding:4px; }
+.nav button strong { display:block; font-size:19px; margin-bottom:3px; }
+.nav button.selected { color:#181818; }
+.panel { display:none; }
+.panel.active { display:block; }
+.empty { background:#fff; border:1px dashed #d6d6d2; border-radius:16px; padding:25px 16px; text-align:center; color:#888; font-size:13px; }
+.notice { font-size:11px; color:#888; line-height:1.5; margin:18px 3px; }
+.source-list { display:grid; gap:9px; margin:12px 0 18px; }
+.source-row { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:13px; border:1px solid #e2e2de; background:#fff; border-radius:12px; font-size:12px; }
+.source-state { color:#858585; font-size:10px; text-align:right; }
+@media(min-width:600px) {
+  .products { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .product-art { height:180px; }
+  .categories { grid-template-columns:repeat(5,1fr); }
+}
 </style>
 </head>
 <body>
 <div id="app">
 <header>
   <div class="logo">STREET<span>LAB.</span></div>
-  <div>
-    <button class="icon-btn" onclick="showTab('saved')">♡</button>
-    <button class="icon-btn" onclick="showTab('cart')">▢</button>
+  <div class="top-actions">
+    <button class="icon-btn" aria-label="Merkliste" onclick="showTab('saved')">♡</button>
+    <button class="icon-btn" aria-label="Warenkorb" onclick="showTab('cart')">▢</button>
   </div>
 </header>
-
 <main>
 <section id="home" class="panel active">
   <div class="search">
     <span>⌕</span>
-    <input id="searchInput" placeholder="Marke, Item oder Style suchen…" oninput="render()">
+    <input id="searchInput" placeholder="Marke, Item oder Style suchen…" oninput="renderProducts()">
+    <span>☷</span>
   </div>
-
   <div class="hero">
     <small>DEIN STYLE. DEIN LAB.</small>
     <h1>Finde deinen<br>nächsten Fit.</h1>
     <p>Streetwear entdecken. Outfits kombinieren.</p>
   </div>
-
-  <div class="section-head"><h2>Kategorien</h2><span class="muted">ENTDECKEN</span></div>
-  <div class="categories" id="categories"></div>
-
-  <div class="section-head">
-    <h2 id="listingTitle">Live-Angebote</h2>
-    <span class="muted">ECHTE QUELLEN</span>
+  <div class="section-head"><h2>Kategorien</h2><span class="muted">ALLE ENTDECKEN</span></div>
+  <div class="categories">
+    <button class="cat" onclick="chooseCategory('Hosen')"><b>👖</b>Hosen</button>
+    <button class="cat" onclick="chooseCategory('Oberteile')"><b>👕</b>Oberteile</button>
+    <button class="cat" onclick="chooseCategory('Pullover')"><b>🧶</b>Pullover</button>
+    <button class="cat" onclick="chooseCategory('Westen')"><b>🦺</b>Westen</button>
+    <button class="cat" onclick="chooseCategory('Jacken')"><b>🧥</b>Jacken</button>
+    <button class="cat" onclick="chooseCategory('Schuhe')"><b>👟</b>Schuhe</button>
+    <button class="cat" onclick="chooseCategory('Caps')"><b>🧢</b>Caps</button>
+    <button class="cat" onclick="chooseCategory('Mützen')"><b>🧶</b>Mützen</button>
+    <button class="cat" onclick="chooseCategory('T-Shirts')"><b>👕</b>T-Shirts</button>
+    <button class="cat" onclick="chooseCategory('Sweatshirts')"><b>▤</b>Sweatshirts</button>
+    <button class="cat" onclick="chooseCategory('Longsleeves')"><b>👔</b>Longsleeves</button>
+    <button class="cat" onclick="chooseCategory('Brillen')"><b>🕶️</b>Brillen</button>
+    <button class="cat" onclick="chooseCategory('Gürtel')"><b>〰️</b>Gürtel</button>
+    <button class="cat" onclick="chooseCategory('Accessoires')"><b>⌚</b>Accessoires</button>
+    <button class="cat" onclick="chooseCategory('Hemden')"><b>👔</b>Hemden</button>
   </div>
-
-  <div class="filters" id="filters"></div>
+  <div class="section-head"><h2 id="listingTitle">Live-Angebote</h2><span class="muted">ECHTE QUELLEN</span></div>
+  <div class="filters">
+    <button class="chip active" onclick="setFilter('Alle',this)">Alle</button>
+    <button class="chip" onclick="setFilter('Hosen',this)">Hosen</button>
+    <button class="chip" onclick="setFilter('Oberteile',this)">Oberteile</button>
+    <button class="chip" onclick="setFilter('Pullover',this)">Pullover</button>
+    <button class="chip" onclick="setFilter('Schuhe',this)">Schuhe</button>
+    <button class="chip" onclick="setFilter('Jacken',this)">Jacken</button>
+    <button class="chip" onclick="setFilter('Accessoires',this)">Accessoires</button>
+  </div>
   <div class="products" id="products"></div>
-
-  <p class="notice">Es werden keine erfundenen Artikel angezeigt. Echte Angebote erscheinen, sobald eine erlaubte Produkt-Schnittstelle verbunden ist.</p>
-
+  <p class="notice">Es werden keine erfundenen Artikel angezeigt. Live-Angebote erscheinen erst, wenn eine erlaubte Produkt-Schnittstelle des jeweiligen Anbieters verbunden ist.</p>
   <div class="section-head"><h2>Quellenstatus</h2></div>
   <div class="source-list">
-    <div class="source-row"><strong>Vinted</strong><span class="source-state">Freischaltung erforderlich</span></div>
-    <div class="source-row"><strong>Grailed</strong><span class="source-state">Erlaubnis für Datenzugriff erforderlich</span></div>
+    <div class="source-row"><strong>Vinted</strong><span class="source-state">Freischaltung / passende Suchschnittstelle nötig</span></div>
+    <div class="source-row"><strong>Grailed</strong><span class="source-state">Keine automatische Datenerfassung ohne Erlaubnis</span></div>
     <div class="source-row"><strong>Markenshops</strong><span class="source-state">Produktfeed je Shop erforderlich</span></div>
   </div>
+  <div class="section-head"><h2>Offizielle Shops entdecken</h2><span class="muted">DIREKTLINKS</span></div>
+  <div class="source-list">
+    <a class="source-row" href="https://www.nike.com/de/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none"><strong>Nike</strong><span class="source-state">Offizieller Shop ↗</span></a>
+    <a class="source-row" href="https://www.adidas.de/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none"><strong>adidas</strong><span class="source-state">Offizieller Shop ↗</span></a>
+    <a class="source-row" href="https://eu.supreme.com/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none"><strong>Supreme</strong><span class="source-state">Offizieller Shop ↗</span></a>
+    <a class="source-row" href="https://www.vans.com/de-de/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none"><strong>Vans</strong><span class="source-state">Offizieller Shop ↗</span></a>
+  </div>
 </section>
-
 <section id="saved" class="panel">
-  <div class="section-head"><h2>Merkliste</h2></div>
+  <div class="section-head"><h2>Merkliste</h2><span class="muted" id="savedCount">0 ITEMS</span></div>
   <div class="products" id="savedProducts"></div>
+  <div class="empty" id="savedEmpty">Noch nichts gespeichert.<br>Tippe bei einem Artikel auf ♡.</div>
 </section>
-
 <section id="cart" class="panel">
-  <div class="section-head"><h2>Warenkorb</h2></div>
+  <div class="section-head"><h2>Warenkorb</h2><span class="muted" id="cartCount">0 ITEMS</span></div>
   <div class="products" id="cartProducts"></div>
+  <div class="empty" id="cartEmpty">Dein Warenkorb ist noch leer.</div>
 </section>
-
 <section id="profile" class="panel">
   <div class="section-head"><h2>STREETLAB</h2></div>
-  <div class="hero">
-    <small>COMING NEXT</small>
-    <h1>Dein Outfit.<br>Dein Avatar.</h1>
-    <p>Der 3D-Outfit-Creator kommt später.</p>
-  </div>
-  <div class="empty">Als Nächstes: echte Produktsuche, Produktdetails und Outfit-Creator.</div>
+  <div class="hero"><small>COMING NEXT</small><h1>Dein Outfit.<br>Dein Avatar.</h1><p>Der 3D-Outfit-Creator kommt in einem späteren Schritt.</p></div>
+  <div class="empty">Als Nächstes: echte Produktsuche, Produktdetails und ein Outfit-Creator.</div>
 </section>
 </main>
-
 <div class="bottom">
-<nav class="nav">
-  <button class="selected" onclick="showTab('home',this)"><strong>⌂</strong>Home</button>
-  <button onclick="showTab('saved',this)"><strong>♡</strong>Merkliste</button>
-  <button onclick="showTab('cart',this)"><strong>▢</strong>Warenkorb</button>
-  <button onclick="showTab('profile',this)"><strong>◉</strong>Outfits</button>
-</nav>
+  <nav class="nav">
+    <button class="selected" onclick="showTab('home',this)"><strong>⌂</strong>Home</button>
+    <button onclick="showTab('saved',this)"><strong>♡</strong>Merkliste</button>
+    <button onclick="showTab('cart',this)"><strong>▢</strong>Warenkorb</button>
+    <button onclick="showTab('profile',this)"><strong>◉</strong>Outfits</button>
+  </nav>
 </div>
 </div>
-
 <script>
-const categoryData=[
-['Hosen','👖'],['Oberteile','👕'],['Pullover','🧶'],
-['Westen','🦺'],['Jacken','🧥'],['Schuhe','👟'],
-['Caps','🧢'],['Mützen','🧶'],['T-Shirts','👕'],
-['Sweatshirts','▤'],['Longsleeves','👔'],['Brillen','🕶️'],
-['Gürtel','〰️'],['Accessoires','⌚'],['Hemden','👔']
-];
-
 const items=[];
-let category='Alle';
 let saved=JSON.parse(localStorage.getItem('sl-saved')||'[]');
 let cart=JSON.parse(localStorage.getItem('sl-cart')||'[]');
-
-function setup(){
-  document.getElementById('categories').innerHTML=
-    categoryData.map(([name,icon])=>
-      `<button class="cat" onclick="chooseCategory('${name}')"><b>${icon}</b>${name}</button>`
-    ).join('');
-
-  const filters=['Alle',...categoryData.map(x=>x[0])];
-  document.getElementById('filters').innerHTML=
-    filters.map(name=>
-      `<button class="chip ${name==='Alle'?'active':''}" onclick="chooseCategory('${name}')">${name}</button>`
-    ).join('');
-
-  render();
-}
-
-function chooseCategory(name){
-  category=name;
-  document.querySelectorAll('.cat').forEach(b=>
-    b.classList.toggle('active',b.textContent.includes(name)&&name!=='Alle')
-  );
-  document.querySelectorAll('.filters .chip').forEach(b=>
-    b.classList.toggle('active',b.textContent===name)
-  );
-  render();
-  document.getElementById('listingTitle').textContent=
-    name==='Alle'?'Live-Angebote':name;
-  document.getElementById('listingTitle').scrollIntoView({behavior:'smooth',block:'center'});
-}
-
-function render(){
-  const q=document.getElementById('searchInput').value.toLowerCase();
-  const list=items.filter(p=>
-    (category==='Alle'||p.category===category)&&
-    (p.name+' '+p.brand+' '+p.category).toLowerCase().includes(q)
-  );
-
-  document.getElementById('products').innerHTML=list.length
-    ?list.map(card).join('')
-    :'<div class="empty">Noch keine Live-Angebote verfügbar.<br>Für diese Kategorie ist noch keine autorisierte Produktquelle verbunden.</div>';
-
-  renderLists();
-}
-
-function card(p){
-  return `<article class="empty">
-    <strong>${p.brand}</strong><br>${p.name}<br>${p.price}
-    <p><button class="chip" onclick="toggleSaved(${p.id})">♡ Merken</button>
-    <button class="chip" onclick="addCart(${p.id})">+ Warenkorb</button></p>
-  </article>`;
-}
+let filter='Alle';
 
 function persist(){
   localStorage.setItem('sl-saved',JSON.stringify(saved));
   localStorage.setItem('sl-cart',JSON.stringify(cart));
 }
 
+function productCard(p){
+  return `<article class="product">
+    <div class="product-art">
+      ${p.image?`<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">`:p.art||'◇'}
+      <button class="heart" onclick="toggleSaved(${p.id})">${saved.includes(p.id)?'♥':'♡'}</button>
+    </div>
+    <div class="product-info">
+      <div class="brand">${p.brand}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-meta"><span class="price">${p.price}</span><span class="condition">${p.condition||''}</span></div>
+      <div class="muted" style="margin-top:7px">${p.source||'Shop'}${p.seller?' · '+p.seller:''}</div>
+      ${p.url?`<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="chip" style="display:block;text-align:center;text-decoration:none;margin-top:9px">Angebot ansehen ↗</a>`:''}
+      <button class="chip" style="margin-top:7px;width:100%" onclick="addCart(${p.id})">+ In den Warenkorb</button>
+    </div>
+  </article>`;
+}
+
+function renderProducts(){
+  let q=document.getElementById('searchInput').value.toLowerCase();
+  let list=items.filter(p=>(filter==='Alle'||p.category===filter)&&(p.name+' '+p.brand+' '+p.category).toLowerCase().includes(q));
+  document.getElementById('listingTitle').textContent=filter==='Alle'?'Live-Angebote':filter;
+  document.getElementById('products').innerHTML=list.map(productCard).join('')||'<div class="empty">Noch keine Live-Angebote verfügbar.<br>Für diese Kategorie ist noch keine autorisierte Produktquelle verbunden. Es werden bewusst keine Demo-Artikel angezeigt.</div>';
+  renderLists();
+}
+
+function renderLists(){
+  let a=items.filter(p=>saved.includes(p.id));
+  let b=items.filter(p=>cart.includes(p.id));
+  document.getElementById('savedProducts').innerHTML=a.map(productCard).join('');
+  document.getElementById('cartProducts').innerHTML=b.map(p=>`<article class="product"><div class="product-art">${p.image?`<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">`:p.art||'◇'}</div><div class="product-info"><div class="brand">${p.brand}</div><div class="product-name">${p.name}</div><div class="product-meta"><span class="price">${p.price}</span><button class="chip" onclick="removeCart(${p.id})">Entfernen</button></div></div></article>`).join('');
+  document.getElementById('savedEmpty').style.display=a.length?'none':'block';
+  document.getElementById('cartEmpty').style.display=b.length?'none':'block';
+  document.getElementById('savedCount').textContent=a.length+' ITEMS';
+  document.getElementById('cartCount').textContent=b.length+' ITEMS';
+}
+
 function toggleSaved(id){
   saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];
-  persist();renderLists();
+  persist();
+  renderProducts();
 }
 
 function addCart(id){
   if(!cart.includes(id))cart.push(id);
-  persist();renderLists();
+  persist();
+  renderLists();
 }
 
 function removeCart(id){
   cart=cart.filter(x=>x!==id);
-  persist();renderLists();
-}
-
-function renderLists(){
-  const savedItems=items.filter(p=>saved.includes(p.id));
-  const cartItems=items.filter(p=>cart.includes(p.id));
-
-  document.getElementById('savedProducts').innerHTML=
-    savedItems.length?savedItems.map(card).join(''):
-    '<div class="empty">Deine Merkliste ist noch leer.</div>';
-
-  document.getElementById('cartProducts').innerHTML=
-    cartItems.length?cartItems.map(p=>
-      `<div class="empty"><strong>${p.brand}</strong><br>${p.name}<br>${p.price}<br><button class="chip" onclick="removeCart(${p.id})">Entfernen</button></div>`
-    ).join(''):
-    '<div class="empty">Dein Warenkorb ist noch leer.</div>';
+  persist();
+  renderLists();
 }
 
 function showTab(id,btn){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('selected'));
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('selected'));
   if(btn)btn.classList.add('selected');
   else{
-    const index={home:0,saved:1,cart:2,profile:3}[id];
-    document.querySelectorAll('.nav button')[index].classList.add('selected');
+    let map={home:0,saved:1,cart:2,profile:3};
+    document.querySelectorAll('.nav button')[map[id]].classList.add('selected');
   }
   renderLists();
 }
 
-setup();
+function setFilter(v,btn){
+  filter=v;
+  document.querySelectorAll('.filters .chip').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts();
+}
+
+function chooseCategory(v){
+  filter=v==='Alle'?'Alle':v;
+  showTab('home',document.querySelector('.nav button'));
+  document.querySelectorAll('.filters .chip').forEach(x=>x.classList.toggle('active',x.textContent===filter));
+  renderProducts();
+  document.getElementById('listingTitle').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+renderProducts();
 </script>
 </body>
 </html>
