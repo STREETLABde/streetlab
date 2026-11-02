@@ -1,1 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f5f3">
+<title>STREETLAB</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f5f3;color:#222;font-family:Arial,sans-serif}
+header{padding:22px;font-size:26px;font-weight:900;letter-spacing:-1px}
+header span{color:#888}
+main{padding:12px 16px 90px;max-width:750px;margin:auto}
+input{width:100%;padding:15px;border:1px solid #ddd;border-radius:12px;font-size:15px}
+.hero{background:#252525;color:white;padding:25px;border-radius:18px;margin:20px 0}
+.hero h1{font-size:32px;margin:10px 0}
+h2{font-size:19px;margin-top:25px}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.cat{background:white;border:1px solid #ddd;border-radius:12px;padding:15px 5px;text-align:center;font-size:12px}
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.product{background:white;border-radius:14px;overflow:hidden;border:1px solid #e5e5e5}
+.pic{height:125px;background:#e8e8e5;display:grid;place-items:center;font-size:48px}
+.info{padding:12px}
+.info small{color:#888}
+.info p{font-size:13px;font-weight:bold}
+button{cursor:pointer}
+.action{background:#252525;color:white;border:0;border-radius:20px;padding:9px 12px;width:100%;margin-top:8px}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:15px 5px}
+nav button{border:0;background:none;font-size:12px;color:#333}
+.page{display:none}.page.active{display:block}
+</style>
+</head>
+<body>
+<header>STREET<span>LAB.</span></header>
+<main>
+<section id="home" class="page active">
+<input id="search" placeholder="Streetwear suchen..." oninput="render()">
+<div class="hero">
+<small>DEIN STYLE. DEIN LAB.</small>
+<h1>Finde deinen nächsten Fit.</h1>
+<p>Streetwear entdecken und Outfits kombinieren.</p>
+</div>
+<h2>Kategorien</h2>
+<div class="categories">
+<div class="cat">👖 Hosen</div>
+<div class="cat">👕 Oberteile</div>
+<div class="cat">🧶 Pullover</div>
+<div class="cat">🦺 Westen</div>
+<div class="cat">🧥 Jacken</div>
+<div class="cat">👟 Schuhe</div>
+<div class="cat">🧢 Caps</div>
+<div class="cat">🧶 Mützen</div>
+<div class="cat">T-Shirts</div>
+<div class="cat">Sweatshirts</div>
+<div class="cat">Longsleeves</div>
+<div class="cat">🕶️ Brillen</div>
+<div class="cat">Gürtel</div>
+<div class="cat">Accessoires</div>
+<div class="cat">Hemden</div>
+</div>
+<h2>Entdecken</h2>
+<div class="products" id="products"></div>
+<p style="font-size:11px;color:#888">Beispielartikel – noch keine echten Angebote.</p>
+</section>
 
+<section id="saved" class="page">
+<h2>♡ Merkliste</h2>
+<div class="products" id="savedProducts"></div>
+</section>
+
+<section id="cart" class="page">
+<h2>Warenkorb</h2>
+<div class="products" id="cartProducts"></div>
+</section>
+
+<section id="outfits" class="page">
+<div class="hero">
+<h1>Dein Outfit.</h1>
+<p>Der 3D-Outfit-Creator kommt später.</p>
+</div>
+</section>
+</main>
+
+<nav>
+<button onclick="show('home')">⌂<br>Home</button>
+<button onclick="show('saved')">♡<br>Merkliste</button>
+<button onclick="show('cart')">▢<br>Warenkorb</button>
+<button onclick="show('outfits')">◉<br>Outfits</button>
+</nav>
+
+<script>
+const items=[
+{id:1,name:"Oversized Hoodie",brand:"STREETWEAR",price:"49,90 €",emoji:"🧥"},
+{id:2,name:"Baggy Jeans",brand:"DENIM",price:"59,00 €",emoji:"👖"},
+{id:3,name:"Retro Sneaker",brand:"SNEAKERS",price:"89,00 €",emoji:"👟"},
+{id:4,name:"Everyday Cap",brand:"ACCESSORIES",price:"24,90 €",emoji:"🧢"}
+];
+
+let saved=JSON.parse(localStorage.getItem("sl-saved")||"[]");
+let cart=JSON.parse(localStorage.getItem("sl-cart")||"[]");
+
+function card(p){
+return `<div class="product">
+<div class="pic">${p.emoji}</div>
+<div class="info">
+<small>${p.brand}</small>
+<p>${p.name}</p>
+<b>${p.price}</b>
+<button class="action" onclick="save(${p.id})">♡ Merken</button>
+<button class="action" onclick="add(${p.id})">In den Warenkorb</button>
+</div></div>`;
+}
+
+function render(){
+let q=document.getElementById("search").value.toLowerCase();
+document.getElementById("products").innerHTML=
+items.filter(p=>(p.name+" "+p.brand).toLowerCase().includes(q)).map(card).join("");
+renderLists();
+}
+
+function save(id){
+if(!saved.includes(id))saved.push(id);
+localStorage.setItem("sl-saved",JSON.stringify(saved));
+renderLists();
+}
+
+function add(id){
+if(!cart.includes(id))cart.push(id);
+localStorage.setItem("sl-cart",JSON.stringify(cart));
+renderLists();
+}
+
+function renderLists(){
+document.getElementById("savedProducts").innerHTML=
+items.filter(p=>saved.includes(p.id)).map(card).join("")||"Noch nichts gespeichert.";
+
+document.getElementById("cartProducts").innerHTML=
+items.filter(p=>cart.includes(p.id)).map(card).join("")||"Dein Warenkorb ist leer.";
+}
+
+function show(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+render();
+</script>
+</body>
+</html>
